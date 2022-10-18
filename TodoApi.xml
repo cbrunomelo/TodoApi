@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>todo-api</name>
+    </assembly>
+    <members>
+        <member name="M:TodoAPi.Controllers.TodoController.GetTodos(System.Int32)">
+            <summary>
+            Get all clients 
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
