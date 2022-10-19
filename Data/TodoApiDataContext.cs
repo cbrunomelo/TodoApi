@@ -12,7 +12,7 @@ public class TodoAPiDataContext : DbContext
     public DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlServer(Configuration.ConnectionString);
+        => options.UseSqlServer($"{Configuration.ConnectionString}");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

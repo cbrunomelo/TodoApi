@@ -18,12 +18,12 @@ builder.Services.AddSwagger();
 
 
 var app = builder.Build();
+Configuration.ConnectionString = app.Configuration.GetConnectionString("DefaultConnection");
 
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
-Configuration.ConnectionString = app.Configuration.GetConnectionString("DefaultConnection");
 
 
 app.MapControllers();
