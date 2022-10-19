@@ -5,6 +5,8 @@ using TodoAPi.Externsions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Configuration.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddControllers().ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; })
         .AddJsonOptions(x =>
         {
@@ -18,7 +20,6 @@ builder.Services.AddSwagger();
 
 
 var app = builder.Build();
-Configuration.ConnectionString = app.Configuration.GetConnectionString("DefaultConnection");
 
 
 app.UseSwagger();
