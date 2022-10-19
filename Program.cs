@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using TodoAPi;
 using TodoAPi.Externsions;
 
 
@@ -22,6 +23,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+Configuration.ConnectionString = app.Configuration.GetConnectionString("DefaultConnection");
 
 
 app.MapControllers();
