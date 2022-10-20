@@ -38,7 +38,35 @@ public static class DependenciesExtension
                         var xmlApiPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
                         c.IncludeXmlComments(xmlApiPath);
-                    }));
+
+                        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme 
+                        {
+                            In=ParameterLocation.Header,
+                            Description="Insert Token Here !",
+                            Name="Authorization",
+                            Type=SecuritySchemeType.Http,
+                            BearerFormat="JWT",
+                            Scheme="bearer"
+                        });
+                        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                        {
+                                {
+                                    new OpenApiSecurityScheme{
+                                        Reference = new OpenApiReference
+                                        {
+                                            Type=ReferenceType.SecurityScheme,
+                                            Id="Bearer"
+                                        }
+                                    },
+                                        new string[]{}
+                                }
+
+
+                        });
+                    })
+                    
+                    
+                    );
     }
 
 

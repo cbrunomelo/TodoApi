@@ -32,10 +32,10 @@ public class TodoController : ControllerBase
 
     [HttpGet("v1/users/todos/{id:int}")]
     public async Task<ActionResult<ResultViewModel<List<TodoViewModel>>>> GetTodos(
-        [FromRoute] int id
+        [FromRoute] string email
     )
     {
-        var UserTodos = await _todoRepository.GetAllTodosFromAUser(id);
+        var UserTodos = await _todoRepository.GetAllTodosFromAUser(email);
         return Ok(UserTodos);
 
     }
@@ -57,7 +57,7 @@ public class TodoController : ControllerBase
 
         var newTodo = await _todoRepository.RegisterTodoAsync(model);
 
-        return Created($"v1/users/todos/{model.UserId}", newTodo);
+        return Created($"v1/users/todos/{model.Email}", newTodo);
 
     }
     /// <summary>
@@ -65,14 +65,14 @@ public class TodoController : ControllerBase
     /// </summary>
     [HttpDelete("v1/users/todos/{id:int}")]
     public async Task<IActionResult> DeleteTodo(
-       [FromRoute] int id,
+       [FromRoute] string email,
        [FromBody] EditorTodoViewModel model
    )
     {
         if (!ModelState.IsValid)
             return BadRequest(new ResultViewModel<User>(ModelState.GetErrors()));
 
-        var DeleteUser = await _todoRepository.DeleteATodoFromAUser(model, id);
+        var DeleteUser = await _todoRepository.DeleteATodoFromAUser(model, email);
         return Ok(DeleteUser);
 
     }
@@ -92,7 +92,7 @@ public class TodoController : ControllerBase
             return BadRequest(new ResultViewModel<EditorTodoViewModel>(ModelState.GetErrors()));
 
         var TodoUpdate = await _todoRepository.UpdateStatusTodoFromAUser(model);
-        return Created($"v1/users/{model.UserId}", TodoUpdate);
+        return Created($"v1/users/{model.Email}", TodoUpdate);
     }
 
 }

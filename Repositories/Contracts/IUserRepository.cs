@@ -6,11 +6,16 @@ namespace TodoAPi.Repositories.Contracts;
 
 public interface IUserRepository
 {
-    Task<ResultViewModel<List<User>>> GetUsersAsync();
-    Task<ResultViewModel<EditorUserViewModel>> RegisterUserAsync(EditorUserViewModel model);
+    Task<ResultViewModel<List<UserViewModel>>> GetUsersAsync();
+    Task<ResultViewModel<UserViewModel>> RegisterUserAsync(UserViewModel model);
 
-    Task<ResultViewModel<EditorUserViewModel>> UpdateUserNameAsync(EditorUserViewModel model, int id);
+    Task<ResultViewModel<UserViewModel>> UpdateUser(EditorUserViewModel model, string email);
 
-    Task<ResultViewModel<bool>> Deleteuser(int id);
+    Task<ResultViewModel<bool>> Deleteuser(string email);
+
+    ResultViewModel<UserViewModel> RegisterUser(UserRegisterViewModel model);
+
+    ResultViewModel<User> UserLogin(LoginUserViewModel model);
+
 
 }

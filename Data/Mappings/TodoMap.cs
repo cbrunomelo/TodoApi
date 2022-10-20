@@ -11,7 +11,7 @@ public class TodoMap : IEntityTypeConfiguration<Todo>
         builder.ToTable("Todo");
 
 
-        builder.HasKey(x => new { x.Title, x.UserId });
+        builder.HasKey(x => new { x.Title, x.Email });
 
 
 
@@ -45,7 +45,7 @@ public class TodoMap : IEntityTypeConfiguration<Todo>
         builder
         .HasOne(x => x.User)
         .WithMany(x => x.Todos)
-        .HasForeignKey(x => x.UserId);
+        .HasForeignKey(x => x.Email);
 
 
 

@@ -11,11 +11,12 @@ public class UserMap : IEntityTypeConfiguration<User>
 
         builder.ToTable("User");
 
-        builder.HasKey(x => x.Id);
+        builder.HasKey(x => x.Email);
 
-        builder.Property(x => x.Id)
-        .ValueGeneratedOnAdd()
-        .UseIdentityColumn();
+        builder.Property(x => x.Email).IsRequired()
+         .HasColumnName("Email")
+         .HasColumnType("NVARCHAR")
+         .HasMaxLength(80);
 
         builder.Property(x => x.Name)
         .IsRequired()
@@ -28,6 +29,17 @@ public class UserMap : IEntityTypeConfiguration<User>
         .WithOne(x => x.User)
         .OnDelete(DeleteBehavior.Cascade);
 
+
+        builder.Property(x => x.PasswordHash).IsRequired()
+         .HasColumnName("PasswordHash")
+         .HasColumnType("VARCHAR")
+         .HasMaxLength(255);
+
+
+        builder
+            .HasMany(x => x.UserRoles)
+            .WithOne(x => x.User);
+           
     }
 }
 

@@ -7,7 +7,7 @@ public class EditorTodoViewModel
 {
 
     [Required(ErrorMessage = "O Id do usuário é obrigatório")]
-    public int UserId { get; set; }
+    public string Email { get; set; }
 
     [Required(ErrorMessage = "O nome da tarefa é obrigatório")]
     [StringLength(80, MinimumLength = 3, ErrorMessage = "Este campo deve conter entre 3 e 80 caracteres")]
