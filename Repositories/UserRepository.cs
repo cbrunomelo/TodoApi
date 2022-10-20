@@ -161,20 +161,37 @@ public class UserRepository : IUserRepository
 
     public ResultViewModel<User> UserLogin(LoginUserViewModel model)
     {
-        var user = _context.Users
-                        .AsNoTracking()
-                        .Include(x => x.UserRoles)
-                        .FirstOrDefault(x => x.Email == model.Email);
-        if (user == null)
-            return new ResultViewModel<User>("Senha ou usuário inválido");
+        try
+        {
+
+            var user = _context.Users
+                            .AsNoTracking()
+                            .Include(x => x.UserRoles)
+                            .FirstOrDefault(x => x.Email == model.Email);
+            if (user == null)
+                return new ResultViewModel<User>("Senha ou usuário inválido");
 
 
-        if (!PasswordHasher.Verify(user.PasswordHash, model.Password))
-            return new ResultViewModel<User>("Senha ou usuário inválido");
+            if (!PasswordHasher.Verify(user.PasswordHash, model.Password))
+                return new ResultViewModel<User>("Senha ou usuário inválido");
 
 
 
-        return new ResultViewModel<User>(user);
+            return new ResultViewModel<User>(user);
+        }
+
+        catch (DbUpdateException ex)
+        {
+            return new ResultViewModel<User>("05XE9 - Não foi possível incluir o usuário");
+        }
+
+        catch
+        {
+
+            return new ResultViewModel<User>("Falha interna no servidor");
+        }
     }
+
 }
+
 

@@ -13,16 +13,13 @@ public class TodoRepository : ITodoRepository
     public TodoRepository(TodoAPiDataContext context)
         => _context = context;
 
-    public async Task<ResultViewModel<TodoViewModel>> RegisterTodoAsync(EditorTodoViewModel model)
+    public async Task<ResultViewModel<TodoViewModel>> RegisterTodoAsync(EditorTodoViewModel model, string email)
     {
 
         try
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == model.Email);
-            if (user == null)
-                return new ResultViewModel<TodoViewModel>("Usuário nao encontrado");
 
-            var task = await _context.Todos.FirstOrDefaultAsync(x => x.Email == model.Email && x.Title == model.Title);
+            var task = await _context.Todos.FirstOrDefaultAsync(x => x.Email == email && x.Title == model.Title);
             if (task != null)
                 return new ResultViewModel<TodoViewModel>("Usuário ja possui essa tarefa");
 
@@ -32,7 +29,7 @@ public class TodoRepository : ITodoRepository
                 Done = model.Done,
                 CreatedAt = DateTime.Now.ToUniversalTime(),
                 LastUpdate = DateTime.Now.ToUniversalTime(),
-                Email = model.Email
+                Email = email
             };
 
             await _context.AddAsync(todo);
@@ -92,14 +89,14 @@ public class TodoRepository : ITodoRepository
     }
 
 
-    public async Task<ResultViewModel<bool>> DeleteATodoFromAUser(EditorTodoViewModel model, string email)
+    public async Task<ResultViewModel<bool>> DeleteATodoFromAUser(String title, string email)
     {
 
         try
         {
-            var todo = await _context.Todos.FirstOrDefaultAsync(x => x.Email == email && x.Title == model.Title);
+            var todo = await _context.Todos.FirstOrDefaultAsync(x => x.Email == email && x.Title == title);
             if (todo == null)
-                return new ResultViewModel<bool>("Tarefa não encontrada, Titulo ou Id do usuário incorreto");
+                return new ResultViewModel<bool>("Tarefa não encontrada, Titulo incorreto");
 
             _context.Remove(todo);
             await _context.SaveChangesAsync();
@@ -117,14 +114,14 @@ public class TodoRepository : ITodoRepository
         }
     }
 
-    public async Task<ResultViewModel<TodoViewModel>> UpdateStatusTodoFromAUser(EditorTodoViewModel model)
+    public async Task<ResultViewModel<TodoViewModel>> UpdateStatusTodoFromAUser(EditorTodoViewModel model, string email)
     {
         try
         {
-            var todo = await _context.Todos.FirstOrDefaultAsync(x => x.Email == model.Email && x.Title == model.Title);
+            var todo = await _context.Todos.FirstOrDefaultAsync(x => x.Email == email && x.Title == model.Title);
 
             if (todo == null)
-                return new ResultViewModel<TodoViewModel>("Tarefa não encontrada, Titulo ou Id do usuário incorreto");
+                return new ResultViewModel<TodoViewModel>("Tarefa não encontrada, Titulo incorreto");
 
 
             todo.LastUpdate = DateTime.Now.ToUniversalTime();
