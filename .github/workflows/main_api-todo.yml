@@ -43,11 +43,23 @@ jobs:
 
       - name: Install Password hasher
         run: dotnet add package SecureIdentity --version 1.0.4
+
+      - name: Install authentication
         run: dotnet add package microsoft.aspnetcore.authentication
+
+      - name: Install jwtbearer
         run: dotnet add package microsoft.aspnetcore.authentication.jwtbearer
+      
+      - name: Install entityframeworkcore
         run: dotnet add package microsoft.entityframeworkcore
+      
+      - name: Install Design
         run: dotnet add package Microsoft.EntityFrameworkCore.Design
+      
+      - name: Install Sqlserver
         run: dotnet add package microsoft.entityframeworkcore.Sqlserver
+
+      - name: Install swashbuckle
         run: dotnet add package swashbuckle.aspnetcore
 
       - name: Build with dotnet
