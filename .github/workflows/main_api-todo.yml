@@ -41,6 +41,9 @@ jobs:
       - name: Install EF Tools
         run: dotnet tool install --global dotnet-ef
 
+      - name: Install Password hasher
+        run: dotnet tool install SecureIdentity -Version 1.0.4
+
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
