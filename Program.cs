@@ -10,8 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 Configuration.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 Configuration.JwtKey = builder.Configuration.GetValue<string>("JwtKey");
-
 var key = Encoding.ASCII.GetBytes(Configuration.JwtKey);
+
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

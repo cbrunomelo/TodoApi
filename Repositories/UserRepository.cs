@@ -37,7 +37,7 @@ public class UserRepository : IUserRepository
         catch
         {
 
-            return new ResultViewModel<List<UserViewModel>>("Falha interna no servidor");
+            return new ResultViewModel<List<UserViewModel>>("05XE11 - Falha interna no servidor");
         }
     }
 
@@ -62,7 +62,7 @@ public class UserRepository : IUserRepository
         catch
         {
 
-            return new ResultViewModel<UserViewModel>("Falha interna no servidor");
+            return new ResultViewModel<UserViewModel>("05XE13 - Falha interna no servidor");
         }
     }
 
@@ -89,7 +89,7 @@ public class UserRepository : IUserRepository
         catch
         {
 
-            return new ResultViewModel<UserViewModel>("Falha interna no servidor");
+            return new ResultViewModel<UserViewModel>("05XE21 - Falha interna no servidor");
         }
     }
 
@@ -155,7 +155,7 @@ public class UserRepository : IUserRepository
         catch
         {
 
-            return new ResultViewModel<UserViewModel>("Falha interna no servidor");
+            return new ResultViewModel<UserViewModel>("05XE15 - Falha interna no servidor");
         }
     }
 

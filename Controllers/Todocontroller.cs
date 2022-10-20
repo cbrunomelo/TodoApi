@@ -28,7 +28,7 @@ public class TodoController : ControllerBase
     /// Todas as tarefas de um usuário logado
     /// </summary>
 
-    /// <returns>Retorna uma lista das Tarefas encontradas de um usuário logado</returns>
+    /// <returns>Retorna uma lista das Tarefas de um usuário logado</returns>
     ///<response code="200">Retorna uma Lista das tarefas do usuário em Data: , se não Data virá vazia e em Erros: Uma lista de erros</response>
     [ProducesResponseTypeAttribute(StatusCodes.Status200OK)]
 
@@ -45,13 +45,35 @@ public class TodoController : ControllerBase
 
     }
 
+
+    /// <summary>
+    /// Todas as tarefas NÃO concluidas de um usuário logado
+    /// </summary>
+
+    /// <returns>Retorna uma lista das Tarefas NÃO concluidas de um usuário logado</returns>
+    ///<response code="200">Retorna uma Lista das tarefas do usuário em Data: , se não Data virá vazia e em Erros: Uma lista de erros</response>
+    [ProducesResponseTypeAttribute(StatusCodes.Status200OK)]
+
+    [HttpGet("v1/users/todos/unfinished")]
+    public async Task<ActionResult<ResultViewModel<List<TodoViewModel>>>> GetUnfinished()
+    {
+        var useremail = User.Identity!.Name;
+        var UserTodos = await _todoRepository.GetUnfinishedTodosFromAUser(useremail);
+
+        if (UserTodos.Errors.Count() != 0)
+            return StatusCode(404, UserTodos);
+
+        return Ok(UserTodos);
+
+    }
+
     /// <summary>
     /// Registrar Nova tarefa para usuário logado
     /// </summary>
 
     /// <returns>Registrar uma Nova tarefa</returns>
     ///<response code="200">Retorna uma Lista das tarefas do usuário em Data, se não Data virá vazia e em Erros: Uma lista de erros</response>
-    
+
     [HttpPost("v1/users/todos")]
     public async Task<ActionResult<ResultViewModel<TodoViewModel>>> PostTodos(
         [FromBody] EditorTodoViewModel model
@@ -69,7 +91,7 @@ public class TodoController : ControllerBase
     /// <summary>
     /// Deletar a tarefa do usuário logado
     /// </summary>
-    
+
     [HttpDelete("v1/users/todos/")]
     public async Task<IActionResult> DeleteTodo(
               string title
@@ -94,7 +116,7 @@ public class TodoController : ControllerBase
     /// </summary>
     /// <returns>Altera a conclusão de uma tarefa do usuário</returns>
     ///<response code="200">Retorna a tarefa alterada</response>
-    
+
     [HttpPut("v1/users/todos/")]
     public async Task<ActionResult<ResultViewModel<TodoViewModel>>> UpdateTodo(
     [FromBody] EditorTodoViewModel model

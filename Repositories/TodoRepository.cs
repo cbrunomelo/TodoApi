@@ -54,13 +54,6 @@ public class TodoRepository : ITodoRepository
     {
         try
         {
-            var user = _context.Users
-            .AsNoTracking()
-            .FirstOrDefault(x => x.Email == email);
-
-            if (user == null)
-                return new ResultViewModel<List<TodoViewModel>>("Usuário não encontrado");
-
 
             var result = new List<TodoViewModel>();
             var todos = await _context.Todos
@@ -143,6 +136,37 @@ public class TodoRepository : ITodoRepository
         catch
         {
             return new ResultViewModel<TodoViewModel>("Falha interna no servidor");
+        }
+    }
+
+    public async Task<ResultViewModel<List<TodoViewModel>>> GetUnfinishedTodosFromAUser(string email)
+    {
+        try
+        {
+
+            var result = new List<TodoViewModel>();
+            var todos = await _context.Todos
+                          .Where(x => x.Email == email && x.Done == false)
+                          .Select(x => new TodoViewModel
+                          {
+                              Title = x.Title,
+                              CreatedAt = x.CreatedAt,
+                              LastUpdate = x.LastUpdate,
+                              Done = x.Done,
+                          }
+                          )
+                          .AsNoTracking()
+                          .ToListAsync();
+
+            if (todos.Count == 0)
+                return new ResultViewModel<List<TodoViewModel>>("Usuário sem Tarefas Inacabadas");
+
+
+            return new ResultViewModel<List<TodoViewModel>>(todos);
+        }
+        catch
+        {
+            return new ResultViewModel<List<TodoViewModel>>("Falha interna no servidor");
         }
     }
 }
