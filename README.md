@@ -1,5 +1,8 @@
 # To do Api
-Uma Api onde usuários podem registrar as suas tarefas
+Uma Api onde usuários podem registrar as suas tarefas <br>
+link da hospedagem: https://api-todo.azurewebsites.net/swagger/index.html <br>
+usuário com admin: bruno@email.com senha: 123
+
 ## Modelagem Lógica
   Tipo de notação: Engenharia - Informações <br>
   <strong>Exclusões de tuplas</strong> <br>
